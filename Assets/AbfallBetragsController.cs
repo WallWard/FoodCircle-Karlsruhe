@@ -62,8 +62,8 @@ public class AbfallBetragsController : MonoBehaviour
         tierischeEmissionenProTag = ((anbauSlider.value / 100) * täglBedarfTierischeProdukte * tierischerRegionalerEmissionsFaktor) + (((100 - anbauSlider.value) / 100) * täglBedarfTierischeProdukte * tierischerÜberseeEmissionsFaktor);
 
         emissionenProTag = pflanzenEmissionenProTag + tierischeEmissionenProTag;
-        abfallProTag = (Mathf.Lerp(regionalerAbfallFaktor, überseeAbfallFaktor, anbauSlider.value)) * täglicherNahrungsmittelBedarf;
-        biomasseProTag = (Mathf.Lerp(regionalerBiomasseFaktor, überseeBiomasseFaktor, anbauSlider.value)) * täglicherNahrungsmittelBedarf;
+        abfallProTag = (Mathf.Lerp(regionalerAbfallFaktor, überseeAbfallFaktor, anbauSlider.value/ 100)) * täglicherNahrungsmittelBedarf;
+        biomasseProTag = (Mathf.Lerp(regionalerBiomasseFaktor, überseeBiomasseFaktor, anbauSlider.value / 100)) * täglicherNahrungsmittelBedarf;
 
         verhaltensEmissionen = privatEmissionenFaktor * emissionenProTag;
         verhaltensAbfall = privatAbfallFaktor * täglicherNahrungsmittelBedarf;
@@ -91,8 +91,8 @@ public class AbfallBetragsController : MonoBehaviour
         emissionenProTag = pflanzenEmissionenProTag + tierischeEmissionenProTag;
 
         //keine unterscheidung zwischen pflanzlich und tierisch für den Abfall und Biomasse
-        abfallProTag = (Mathf.Lerp(regionalerAbfallFaktor, überseeAbfallFaktor, sliderValue)) * täglicherNahrungsmittelBedarf;
-        biomasseProTag = (Mathf.Lerp(regionalerBiomasseFaktor, überseeBiomasseFaktor, sliderValue)) * täglicherNahrungsmittelBedarf;
+        abfallProTag = (Mathf.Lerp(regionalerAbfallFaktor, überseeAbfallFaktor, sliderValue / 100)) * täglicherNahrungsmittelBedarf;
+        biomasseProTag = (Mathf.Lerp(regionalerBiomasseFaktor, überseeBiomasseFaktor, sliderValue / 100)) * täglicherNahrungsmittelBedarf;
 
         AnbauEmissionenVerhältnis.text = anbauSlider.value.ToString("F2") + "%";
     }
@@ -108,13 +108,13 @@ public class AbfallBetragsController : MonoBehaviour
 
     private void OnVerhaltenSliderValueChanged(float sliderValue)
     {
-        float privatVerhaltensEmissionsFaktor = privatEmissionenFaktor / Mathf.Lerp(0.0001f, optimistischerVerhaltensFaktor, sliderValue);
+        float privatVerhaltensEmissionsFaktor = privatEmissionenFaktor / Mathf.Lerp(0.0001f, optimistischerVerhaltensFaktor, sliderValue / 100);
         verhaltensEmissionen = privatVerhaltensEmissionsFaktor * emissionenProTag;
 
-        float privatVerhaltensAbfallFaktor = privatAbfallFaktor / Mathf.Lerp(0.0001f, optimistischerVerhaltensFaktor, sliderValue);
+        float privatVerhaltensAbfallFaktor = privatAbfallFaktor / Mathf.Lerp(0.0001f, optimistischerVerhaltensFaktor, sliderValue/100);
         verhaltensAbfall = privatVerhaltensAbfallFaktor * täglicherNahrungsmittelBedarf;
 
-        float privatVerhaltensBiomüllFaktor = privatBiomüllFaktor / Mathf.Lerp(0.0001f, optimistischerVerhaltensFaktor, sliderValue);
+        float privatVerhaltensBiomüllFaktor = privatBiomüllFaktor / Mathf.Lerp(0.0001f, optimistischerVerhaltensFaktor, sliderValue/100);
         verhaltensBiomüll = privatVerhaltensBiomüllFaktor * täglicherNahrungsmittelBedarf;
 
         PositivesVerhalten.text = verhaltensSlider.value.ToString("F2") + "%";
